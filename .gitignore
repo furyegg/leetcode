@@ -1,0 +1,9 @@
+*.class
+*.jar
+*.war
+.iml
+*.iml
+.idea
+/*.iml
+target
+*.versionsBackup

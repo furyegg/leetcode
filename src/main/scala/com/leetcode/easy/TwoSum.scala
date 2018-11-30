@@ -1,10 +1,22 @@
 package com.leetcode.easy
 
 object Solution {
+  import scala.collection.mutable.Map
+  
+  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    val map: Map[Int, Int] = Map.empty
+    for (i <- 0 until nums.size) {
+      val num = nums(i)
+      val diff = target - num
+      if (map.contains(diff)) return Array(map.get(diff).get, i)
+      else map.put(num, i)
+    }
+    Array()
+  }
   
   val threshold = 10
   
-  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+  def twoSum2(nums: Array[Int], target: Int): Array[Int] = {
     val indexedNums = nums.zipWithIndex.sortBy(t => t._1)
     for (i <- 0 until indexedNums.size) {
       val num = indexedNums(i)

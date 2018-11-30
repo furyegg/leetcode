@@ -1,6 +1,6 @@
 package com.leetcode.easy
 
-object Solution {
+object TwoSum {
   import scala.collection.mutable.Map
   
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {

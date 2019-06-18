@@ -7,38 +7,30 @@ public class RemoveElement {
         }
         
         int n = 0;
-        int m = 0;
-        int count = 0;
+        int m = -1;
         while (n < nums.length) {
-            if (nums[n] == val) {
-                ++count;
+            if (nums[n] == val && m < 0) {
+                m = n;
             }
-            if (nums[m] == val) {
-                if (nums[n] != val) {
-                    nums[m] = nums[n];
-                    ++m;
-                }
-            } else {
-                if (m != n && nums[n] != val) {
-                    nums[m] = nums[n];
-                }
+            if (nums[n] != val && m > -1) {
+                nums[m] = nums[n];
                 ++m;
             }
             ++n;
         }
-        print(nums);
-        return nums.length - count;
+        // print(nums);
+        return m < 0 ? n : m;
     }
     
     public static void main(String[] args) {
         RemoveElement app = new RemoveElement();
         System.out.println(app.removeElement(new int[] {0,1,2,2,3,0,4,2}, 2));
-//        System.out.println(app.removeElement(new int[] {4,2,0,2,2,1,4,4,1,4,3,2}, 4));
-//        System.out.println(app.removeElement(new int[] {3, 3}, 5));
-//        System.out.println(app.removeElement(new int[] {3, 3}, 3));
-//        System.out.println(app.removeElement(new int[] {1}, 2));
-//        System.out.println(app.removeElement(new int[] {3,2,2,3}, 3));
-//        System.out.println(app.removeElement(new int[] {0,1,2,2,3,0,4,2}, 2));
+        System.out.println(app.removeElement(new int[] {4,2,0,2,2,1,4,4,1,4,3,2}, 4));
+        System.out.println(app.removeElement(new int[] {3, 3}, 5));
+        System.out.println(app.removeElement(new int[] {3, 3}, 3));
+        System.out.println(app.removeElement(new int[] {1}, 2));
+        System.out.println(app.removeElement(new int[] {3,2,2,3}, 3));
+        System.out.println(app.removeElement(new int[] {0,1,2,2,3,0,4,2}, 2));
     }
     
     private static void print(int[] arr) {

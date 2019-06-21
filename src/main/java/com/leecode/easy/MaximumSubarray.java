@@ -5,11 +5,12 @@ public class MaximumSubarray {
         int maxSum = nums[0];
         int sum = maxSum;
         for (int i = 1; i < nums.length; ++i) {
-            if (nums[i] > sum) {
+            if (nums[i] > maxSum) {
                 maxSum = sum < 0 ? nums[i] : sum + nums[i];
                 sum = maxSum;
             } else {
-                sum += nums[i];
+                int s = sum + nums[i];
+                sum = s < 0 ? nums[i] : s;
                 if (sum > maxSum) {
                     maxSum = sum;
                 }
@@ -20,6 +21,7 @@ public class MaximumSubarray {
     
     public static void main(String[] args) {
         MaximumSubarray app = new MaximumSubarray();
+        System.out.println(app.maxSubArray(new int[] {2,-2,-2,0,-2,2,2}));
         System.out.println(app.maxSubArray(new int[] {8,-19,5,-4,20}));
         System.out.println(app.maxSubArray(new int[] {-1,-2}));
         System.out.println(app.maxSubArray(new int[] {1,2}));

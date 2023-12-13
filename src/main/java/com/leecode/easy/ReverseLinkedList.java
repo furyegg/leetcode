@@ -1,12 +1,11 @@
 package com.leecode.easy;
 
 public class ReverseLinkedList {
-    public static class ListNode {
+    private static class ListNode {
         int val;
         ListNode next;
-        
-        ListNode() {
-        }
+
+        ListNode() {}
         
         ListNode(int val) {
             this.val = val;
@@ -17,32 +16,43 @@ public class ReverseLinkedList {
             this.next = next;
         }
     }
-    
+
     public ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode current = head;
+        while (current != null) {
+            ListNode next = current.next;
+            current.next = pre;
+            pre = current;
+            current = next;
+        }
+        return pre;
+    }
+    
+    public ListNode reverseList2(ListNode head) {
         if (head == null) {
             return null;
         }
         if (head.next == null) {
             return head;
         }
-        
-        ListNode next = reverseList(head.next);
-        next.next = head;
-        head.next = null;
-        return reverse(head, head.next);
-    }
-    
-    private ListNode reverse(ListNode current, ListNode next) {
-        if (next == null) {
-            return current;
-        } else {
-            return new ListNode(next.val, current);
+
+        ListNode current = head;
+        ListNode next = head.next;
+        ListNode nn;
+        while (next != null) {
+            nn = next.next;
+            next.next = current;
+            current = next;
+            next = nn;
         }
+        head.next = null;
+        return current;
     }
     
     public static void main(String[] args) {
         ReverseLinkedList app = new ReverseLinkedList();
-        ListNode l1 = new ListNode(1, new ListNode(2, new ListNode(3)));
+        ListNode l1 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
         print(l1);
         ListNode reversed = app.reverseList(l1);
         print(reversed);

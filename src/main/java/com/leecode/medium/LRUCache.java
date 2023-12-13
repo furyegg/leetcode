@@ -10,21 +10,34 @@ public class LRUCache {
         Node pre;
         Node next;
 
-        Node(int key, int value, Node pre, Node next) {
+        Node(int key, int value) {
             this.key = key;
             this.value = value;
-            this.pre = pre;
-            this.next = next;
         }
     }
 
     private Map<Integer, Node> map = new HashMap<>();
-    private Node head;
-    private Node tail;
+    private Node head = new Node(-1, -1);
+    private Node tail = new Node(-1, -1);
     private int capacity;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
+        head.next = tail;
+        tail.pre = head;
+    }
+
+    private void deleteNode(Node node) {
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
+    }
+
+    private void addToHead(Node node) {
+        Node tmp = head.next;
+        head.next = node;
+        node.pre = head;
+        node.next = tmp;
+        tmp.pre = node;
     }
 
     public int get(int key) {
@@ -32,73 +45,35 @@ public class LRUCache {
             return -1;
         }
 
-        if (capacity == 1) {
-            return head.value;
-        }
-
         Node valueNode = map.get(key);
-        if (valueNode.key == head.key) {
-            return valueNode.value;
-        }
-
-        toHead(valueNode);
+        deleteNode(valueNode);
+        addToHead(valueNode);
         return valueNode.value;
     }
 
-    private void toHead(Node valueNode) {
-        if (valueNode.key == head.key) {
-            return;
-        }
-
-        if (valueNode.next != null) {
-            valueNode.next.pre = valueNode.pre;
-        }
-
-        if (valueNode.pre != null) {
-            valueNode.pre.next = valueNode.next;
-        }
-
-        if (valueNode.key == tail.key) {
-            tail = valueNode.pre;
-        }
-
-        valueNode.next = head;
-        head.pre = valueNode;
-        head = valueNode;
-        valueNode.pre = null;
-    }
-
     public void put(int key, int value) {
-        if (head == null || capacity == 1) {
-            head = new Node(key, value, null, null);
-            tail = head;
-            map.clear();
-            map.put(key, head);
-            return;
-        }
-
         if (map.containsKey(key)) {
             Node valueNode = map.get(key);
             valueNode.value = value;
-            toHead(valueNode);
-            return;
+            deleteNode(valueNode);
+            addToHead(valueNode);
+            map.put(key, valueNode);
+        } else {
+            Node newNode = new Node(key, value);
+            addToHead(newNode);
+            if (map.size() == capacity) {
+                map.remove(tail.pre.key);
+                deleteNode(tail.pre);
+            }
+            map.put(key, newNode);
         }
-
-        Node newHead = new Node(key, value, null, head);
-        head.pre = newHead;
-        head = newHead;
-
-        if (map.size() == capacity && tail.pre != null) {
-            Node newTail = tail.pre;
-            map.remove(tail.key);
-            tail = newTail;
-            tail.next = null;
-        }
-
-        map.put(key, newHead);
     }
 
     public static void main(String[] args) {
+        test1();
+        test2();
+        test3();
+        test4();
         test5();
     }
 

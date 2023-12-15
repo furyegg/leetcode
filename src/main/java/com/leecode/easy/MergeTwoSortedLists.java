@@ -22,7 +22,7 @@ public class MergeTwoSortedLists {
                 sb.append(nextNode.val);
                 nextNode = nextNode.next;
             }
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
     }
     
@@ -73,60 +73,6 @@ public class MergeTwoSortedLists {
             head.next = l2;
         }
         return dummy.next;
-    }
-    
-    public ListNode mergeTwoLists3(ListNode l1, ListNode l2) {
-        if (l1 == null) {
-            return l2;
-        }
-        if (l2 == null) {
-            return l1;
-        }
-        
-        ListNode l;
-        ListNode node;
-        ListNode n1;
-        ListNode n2;
-        
-        if (l1.val == l2.val) {
-            l = l1;
-            n1 = l1.next;
-            l.next = l2;
-            node = l2;
-            n2 = l2.next;
-        } else {
-            l = l1.val < l2.val ? l1 : l2;
-            node = l;
-            n1 = l1.val < l2.val ? l1.next : l1;
-            n2 = l1.val < l2.val ? l2 : l2.next;
-        }
-        
-        while (n1 != null && n2 != null) {
-            if (n1.val == n2.val) {
-                ListNode n1Next = n1.next;
-                node.next = n1;
-                n1.next = n2;
-                node = n2;
-                n1 = n1Next;
-                n2 = n2.next;
-            } else if (n1.val < n2.val) {
-                node.next = n1;
-                n1 = n1.next;
-            } else {
-                node.next = n2;
-                n2 = n2.next;
-            }
-            node = node.next;
-        }
-        
-        if (n1 != null) {
-            node.next = n1;
-        }
-        if (n2 != null) {
-            node.next = n2;
-        }
-        
-        return l;
     }
     
     public static void main(String[] args) {
